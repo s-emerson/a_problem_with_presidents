@@ -69,7 +69,15 @@ def main():
                 lived_days = lived_years.days
                 dict_of_lifetimes[row["PRESIDENT"]] = lived_days
         print(str(dict_of_lifetimes))
-        
+        sorted_descending = sorted(dict_of_lifetimes.items(), key=lambda x:x[1])
+        print(str(sorted_descending))
+        for key,value in sorted_descending[:10]:
+            print(str(key) + ", " + str(value))
+
+        sorted_ascending = sorted(dict_of_lifetimes.items(), key=lambda x:x[1], reverse=True)
+        print(str(sorted_ascending))
+        for key,value in sorted_ascending[:10]:
+            print(str(key) + ", " + str(value))
 
 
 if __name__ == '__main__':
