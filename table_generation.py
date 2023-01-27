@@ -8,6 +8,7 @@ import statistics
 import math
 
 import matplotlib
+from pyparsing import dict_of
 
 # Assemble your tables and plot into a single report with a title, author and date. Start the report with a 3 or 4 sentence summary of what you found, the body should have your tables and plot and any commentary about your methods or assumptions you think the reader would need to know. Finish the report with a conclusions section, where you state the conclusions you reached through this analysis.
 
@@ -67,7 +68,33 @@ def calculate_median(dict_of_lifetimes):
 def calculate_mode(dict_of_lifetimes):
     # mode is most common value
     # look for non-unique values in the dict
-    pass
+
+    check_for_unique = {}
+
+    # Create a dict of times that each value appears in the input dictionary
+    for value in dict_of_lifetimes:
+        days_lived = dict_of_lifetimes[value]
+        if days_lived in check_for_unique:
+            check_for_unique[value] += 1
+        else:
+            check_for_unique[value] = 1
+        # print("Dictionary contents: ", check_for_unique)
+            
+    # Find the maximum times a value appeared
+    modes = []
+    try:
+        non_unique_max = max(check_for_unique.values(), key=check_for_unique.get)
+        print("Max value: ", non_unique_max)
+        # Create a list of keys with this value (can be more than one value)
+        for value in check_for_unique:
+            if value == non_unique_max:
+                modes.append(value)
+    except TypeError:
+        # If no item occurs more than the others, then there is no  mode:
+        if modes == []:
+            print("No mode found / all values are unique.")
+
+    return modes
 
 
 def calculate_max(dict_of_lifetimes):
