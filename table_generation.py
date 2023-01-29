@@ -6,6 +6,7 @@ import csv
 import datetime
 import statistics
 import math
+import sys
 
 import matplotlib
 from pyparsing import dict_of
@@ -13,21 +14,26 @@ from pyparsing import dict_of
 # Assemble your tables and plot into a single report with a title, author and date. Start the report with a 3 or 4 sentence summary of what you found, the body should have your tables and plot and any commentary about your methods or assumptions you think the reader would need to know. Finish the report with a conclusions section, where you state the conclusions you reached through this analysis.
 
 
-def tables_of_lived_days(dict_of_lifetimes):
+def ranks_of_lived_days(dict_of_lifetimes, out=sys.stdout):
     """ 2 tables ranking the top 10 Presidents from longest lived to shortest lived and then the top 10 presidents from shortest lived to longest lived """
 
-    # TODO: convert this to a table instead of an iterated printout
-
-    print(str(dict_of_lifetimes))
+    # print(str(dict_of_lifetimes))
     sorted_descending = sorted(dict_of_lifetimes.items(), key=lambda x:x[1])
-    print("List of Shortest-Lived Presidents (Name, Days): ")
-    for key,value in sorted_descending[:10]:
-        print(str(key) + ", " + str(value))
+    print("List of Shortest-Lived Presidents: ", file=out)
+    print ("{:<20} {:<15}".format("NAME","DAYS LIVED"), file=sys.stdout)
+    for key, value in sorted_descending[:10]:
+        pres = key
+        lived = value
+        print ("{:<20} {:<15}".format(pres, lived), file=sys.stdout)
 
     sorted_ascending = sorted(dict_of_lifetimes.items(), key=lambda x:x[1], reverse=True)
-    print("List of Longest-Lived Presidents (Name, Days): ")
-    for key,value in sorted_ascending[:10]:
-        print(str(key) + ", " + str(value))
+    print("List of Longest-Lived Presidents: ", file=out)
+    print ("{:<20} {:<15}".format("NAME","DAYS LIVED"), file=sys.stdout)
+    for key, value in sorted_ascending[:10]:
+        pres = key
+        lived = value
+        print ("{:<20} {:<15}".format(pres, lived), file=sys.stdout)
+
 
 
 def calculate_mean(dict_of_lifetimes):
@@ -66,8 +72,7 @@ def calculate_median(dict_of_lifetimes):
 
 
 def calculate_mode(dict_of_lifetimes):
-    # mode is most common value
-    # look for non-unique values in the dict
+    """ Mode is most common value- look for non-unique values in the dict """
 
     check_for_unique = {}
 
@@ -84,7 +89,6 @@ def calculate_mode(dict_of_lifetimes):
     modes = []
     try:
         non_unique_max = max(check_for_unique.values(), key=check_for_unique.get)
-        print("Max value: ", non_unique_max)
         # Create a list of keys with this value (can be more than one value)
         for value in check_for_unique:
             if value == non_unique_max:
@@ -92,23 +96,23 @@ def calculate_mode(dict_of_lifetimes):
     except TypeError:
         # If no item occurs more than the others, then there is no  mode:
         if modes == []:
-            print("No mode found / all values are unique.")
+            modes = "All values are unique; no"
 
     return modes
 
 
-def calculate_max(dict_of_lifetimes):
+def calculate_max(dict_of_lifetimes, out=sys.stdout):
     sorted_descending = sorted(dict_of_lifetimes.items(), key=lambda x:x[1])
-    print("Shortest-Lived President (Name, Days): ")
+    print("Shortest-Lived President (Name, Days): ", file=out)
     for key,value in sorted_descending[:1]:
-        print(str(key) + ", " + str(value))
+        print(str(key) + ", " + str(value), file=out)
 
 
-def calculate_min(dict_of_lifetimes):
+def calculate_min(dict_of_lifetimes, out=sys.stdout):
     sorted_ascending = sorted(dict_of_lifetimes.items(), key=lambda x:x[1], reverse=True)
-    print("Longest-Lived President (Name, Days): ")
+    print("Longest-Lived President (Name, Days): ", file=out)
     for key,value in sorted_ascending[:1]:
-        print(str(key) + ", " + str(value))
+        print(str(key) + ", " + str(value), file=out)
 
 
 def calculate_st_dev(dict_of_lifetimes):
@@ -156,6 +160,7 @@ def main():
     dict_of_lifetimes = {}
     with open("U.S. Presidents Birth and Death Information - Sheet1.csv") as spreadsheet:
         reader = csv.DictReader(spreadsheet)
+        full_dataset = {}
         for row in reader:
             # key is president name, value is years / months / days lived. print out to tables where the TITLE is "years lived" etc.
             birthdate = row["BIRTH DATE"].split()
@@ -165,39 +170,50 @@ def main():
             birth_datetime = datetime.date(birth_year, birth_month, birth_day)
             # Activate this code if we want to include living presidents in our calculations. 
             # If not, then keeping this commented out excludes any surviving presidents.
-            # if row["DEATH DATE"] is "":
-            #     deathdate = datetime.date.today()
+            if row["DEATH DATE"] == "":
+                death_datetime = datetime.date.today()
             if row["DEATH DATE"] != "":
                 deathdate = row["DEATH DATE"].split()
                 death_month = convert_month_to_value(deathdate[0])
                 death_day = int(deathdate[1].strip(","))
                 death_year = int(deathdate[2])
                 death_datetime = datetime.date(death_year, death_month, death_day)
-                lived_years = death_datetime - birth_datetime
-                lived_days = lived_years.days
-                dict_of_lifetimes[row["PRESIDENT"]] = lived_days
+            lived_years = death_datetime - birth_datetime
+            lived_days = lived_years.days
+            dict_of_lifetimes[row["PRESIDENT"]] = lived_days
+            row["DAYS LIVED"] = str(lived_days)
 
-        tables_of_lived_days(dict_of_lifetimes)
+            full_dataset[row["PRESIDENT"]] = [str(birth_datetime),  str(death_datetime), row["DAYS LIVED"]]
+
+        # print the whole dataset out in a nice table
+        print ("{:<25} {:<15} {:<15} {:<15}".format("PRESIDENT","BIRTH DATE","DEATH DATE","DAYS LIVED"), file=sys.stdout)
+        for key, values in full_dataset.items():
+            pres = key
+            birth, death, lived = values
+            print ("{:<25} {:<15} {:<15} {:<15}".format(pres, birth, death, lived), file=sys.stdout)
+
+        ranks_of_lived_days(dict_of_lifetimes)
 
         mean = calculate_mean(dict_of_lifetimes)
         rounded_mean = round(mean)
         mean_years = round(mean / 365)
-        print("Mean lifetime: " + str(rounded_mean) + " days.")
-        print("Mean lifetime: " + str(mean_years) + " years.")
+        print("Mean lifetime: " + str(rounded_mean) + " days.", file=sys.stdout)
+        print("Mean lifetime: " + str(mean_years) + " years.", file=sys.stdout)
 
         calculate_weighted_average(dict_of_lifetimes)
 
         median = calculate_median(dict_of_lifetimes)
-        print("Median lifetime in days is: " + str(median))
+        print("Median lifetime in days is: " + str(median), file=sys.stdout)
 
-        calculate_mode(dict_of_lifetimes)
+        modes = calculate_mode(dict_of_lifetimes)
+        print("Mode of lifetimes is: " + str(modes) + " days.", file=sys.stdout)
 
         calculate_max(dict_of_lifetimes) # related to top 10
 
         calculate_min(dict_of_lifetimes) # related to bottom 10
 
         st_dev = calculate_st_dev(dict_of_lifetimes)
-        print("Standard deviation is: " + str(st_dev))
+        print("Standard deviation is: " + str(st_dev), file=sys.stdout)
 
         # put all this in a table, and then make a plot that shows the distribution of the data (year_of_birth vs lived_years, maybe? and then put the weighted average vs the actual x-y trend line)
 
