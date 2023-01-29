@@ -1,0 +1,25 @@
+List of Shortest-Lived Presidents: 
+NAME                 DAYS LIVED     
+John F. Kennedy      16978          
+James A. Garfield    18202          
+James K. Polk        19583          
+Abraham Lincoln      20516          
+Chester Arthur       20863          
+Warren G. Harding    21091          
+William McKinley     21412          
+Theodore Roosevelt   21985          
+Calvin Coolidge      22099          
+Barack Obama         22457          
+
+List of Longest-Lived Presidents: 
+NAME                 DAYS LIVED     
+Jimmy Carter         35913          
+George Bush          34504          
+Gerald Ford          34133          
+Ronald Reagan        34088          
+John Adams           33119          
+Herbert Hoover       32943          
+Harry S. Truman      32373          
+James Madison        31150          
+Thomas Jefferson     30397          
+Richard Nixon        29688          
