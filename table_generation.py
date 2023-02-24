@@ -50,10 +50,17 @@ def calculate_mean(dict_of_lifetimes):
 
 
 def calculate_weighted_average(dict_of_lifetimes):
-    """ Weighted average is (sum of (items times 1/(standard deviation)^2)) / (sum of 1/(standard deviation)^2s) """
-    # all values should have equal weight though- what causes this to be different from the mean in this case?
-    st_dev = calculate_st_dev(dict_of_lifetimes)
-    pass
+    """ Weighted average is (sum of (items times 1/(variance)^2)) / (sum of 1/(variance)^2s) """
+    # what is the variance for this dataset? we know the exact birth dates.
+    # i guess if we count *hours* in the day- if they were born at 12:01 and died at 11:59 pm, that's technically a difference of a full extra day. or if they were born at 11:59 pm and died at 12:01 am, that's a variance of one LESS day. so a variance +/- 0.99 days that would apply to each item in the dict.
+    variance = 1.0 / (0.99 ** 2)
+    length = len(dict_of_lifetimes)
+    weighted = 0
+    for value in dict_of_lifetimes:
+        i = dict_of_lifetimes[value]
+        weighted += (variance * i)
+    weighted = weighted / (variance * length)
+    return weighted
 
 
 def calculate_median(dict_of_lifetimes):
@@ -206,10 +213,11 @@ def main():
         print("Mean lifetime: " + str(rounded_mean) + " days.")
         print("Mean lifetime: " + str(mean_years) + " years.")
 
-        calculate_weighted_average(dict_of_lifetimes)
+        weighted = calculate_weighted_average(dict_of_lifetimes)
+        print("Weighted average is: " + str(weighted) + " days.")
 
         median = calculate_median(dict_of_lifetimes)
-        print("Median lifetime in days is: " + str(median))
+        print("Median lifetime in days is: " + str(median) + " days.")
 
         modes = calculate_mode(dict_of_lifetimes)
         print("Mode of lifetimes is: " + str(modes) + " days.")
