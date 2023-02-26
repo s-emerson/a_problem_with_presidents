@@ -9,7 +9,9 @@ import math
 import sys
 
 import matplotlib
+from matplotlib import pyplot as plt
 from pyparsing import dict_of
+import numpy as np
 
 # Assemble your tables and plot into a single report with a title, author and date. Start the report with a 3 or 4 sentence summary of what you found, the body should have your tables and plot and any commentary about your methods or assumptions you think the reader would need to know. Finish the report with a conclusions section, where you state the conclusions you reached through this analysis.
 
@@ -230,6 +232,27 @@ def main():
         print("Standard deviation is: " + str(st_dev))
 
         # put all this in a table, and then make a plot that shows the distribution of the data (year_of_birth vs lived_years, maybe? and then put the weighted average vs the actual x-y trend line)
+
+        list_of_years = []
+        list_of_lived = []
+        for key, values in full_dataset.items():
+            pres = key
+            birth, death, lived = values
+            birthdate = birth[0:4]
+            list_of_years.append(int(birthdate))
+            list_of_lived.append(int(lived))
+        plt.scatter(list_of_years, list_of_lived, label = 'Data')
+        # plt.plot(weighted)
+        plt.title('Change in Lifetime of Presidents by Year')
+        plt.xlabel('Year of Birth')
+        plt.ylabel('Days Lived')
+        # plt.yticks([16000, 20000, 24000, 28000, 32000, 36000])
+        fit = np.polyfit(list_of_years, list_of_lived, 1)
+        line = np.poly1d(fit)
+        plt.plot(list_of_years, line(list_of_years), 'r', label = 'Trendline')
+        plt.legend(loc = 'best')
+        plt.show()
+        plt.savefig("lifetime_plot.png")
 
 
 
