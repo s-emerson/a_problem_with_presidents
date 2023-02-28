@@ -2,8 +2,6 @@
 Report by Samantha Emerson
     2-27-2023
 
-Assemble your tables and plot into a single report with a title, author and date. Start the report with a 3 or 4 sentence summary of what you found, the body should have your tables and plot and any commentary about your methods or assumptions you think the reader would need to know. Finish the report with a conclusions section, where you state the conclusions you reached through this analysis.
-
 ## Introduction
 
 This report condenses the data of U.S. President birth vs death dates into tables and a graph that can track the length of life for each president. The data was taken from [presidentsusa.net](https://www.presidentsusa.net/birth.html). Overall, outside of a few outliers due to illness or assassination, presidential lifetimes have grown longer over the centuries. This reflects the increase in lifespan for U.S. citizens over time as well.
