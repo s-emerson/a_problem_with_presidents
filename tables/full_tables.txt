@@ -36,11 +36,11 @@ John F. Kennedy           1917-05-29      1963-11-22      16978
 Lyndon B. Johnson         1908-08-27      1973-01-22      23524          
 Richard Nixon             1913-01-09      1994-04-22      29688          
 Gerald Ford               1913-07-14      2006-12-26      34133          
-Jimmy Carter              1924-10-01      Alive           35942          
+Jimmy Carter              1924-10-01      Alive           35943          
 Ronald Reagan             1911-02-06      2004-06-05      34088          
 George Bush               1924-06-12      2018-11-30      34504          
-Bill Clinton              1946-08-19      Alive           27950          
-George W. Bush            1946-07-06      Alive           27994          
-Barack Obama              1961-08-04      Alive           22486          
-Donald Trump              1946-06-14      Alive           28016          
-Joe Biden                 1942-11-20      Alive           29318          
+Bill Clinton              1946-08-19      Alive           27951          
+George W. Bush            1946-07-06      Alive           27995          
+Barack Obama              1961-08-04      Alive           22487          
+Donald Trump              1946-06-14      Alive           28017          
+Joe Biden                 1942-11-20      Alive           29319          

@@ -251,8 +251,8 @@ def main():
         line = np.poly1d(fit)
         plt.plot(list_of_years, line(list_of_years), 'r', label = 'Trendline')
         plt.legend(loc = 'best')
-        plt.show()
         plt.savefig("lifetime_plot.png")
+        plt.show()
 
 
 
