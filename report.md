@@ -1,6 +1,7 @@
 # A Problem with Presidents; a data-to-information challenge.
 Report by Samantha Emerson
-    2-27-2023
+
+2-27-2023
 
 ## Introduction
 
@@ -9,6 +10,7 @@ This report condenses the data of U.S. President birth vs death dates into table
 ### Figures and Tables
 
 Figure 1: Data visualized via scatter plot
+
 ![A scatterplot chart of presidential lifetimes, where the X-axis is the year of birth and the Y-axis is the amount of days the president lived.](lifetime_plot.png)
 
 In this figure, we can see that overall, the length of a U.S. President's life has generally increased over time, though at the beginning of the industrial revolution in 1793 the lifespan trend experienced a dip. One reason for the apparently shorter lifespans after 1900 is because these presidents have not yet died, and so the length of their life is artificially shorter since their life cutoff is the present day.
